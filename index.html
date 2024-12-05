@@ -1,39 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PASTA: Multiple Object Tracking</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon/favicon-16x16.png">
+    <link rel="manifest" href="icon/site.webmanifest">
     <style>
         .btn-paper {
             margin: 0 10px;
         }
+
         .disabled {
             pointer-events: none;
             opacity: 0.6;
         }
+
         .hero-section {
             padding: 4rem 0;
             background-color: #f8f9fa;
         }
+
         .authors {
             color: #666;
             font-size: 1.1rem;
         }
+
         .table-results {
             font-size: 0.9rem;
         }
+
         .table-results th {
             background-color: #f8f9fa;
         }
+
         .best-result {
             font-weight: bold;
             color: #198754;
         }
     </style>
 </head>
+
 <body>
     <!-- Hero Section -->
     <div class="hero-section">
@@ -43,17 +55,16 @@
                     <h1 class="display-4 mb-3">PASTA: Is Multiple Object Tracking a Matter of Specialization</h1>
                     <h2 class="h4 mb-4 text-muted">Deep Modules Compositionality Meets Multiple Object Tracking</h2>
                     <p class="authors mb-4">
-                        Gianluca Mancusi, Mattia Bernardi, Aniello Panariello, Angelo Porrello, Simone Calderara, Rita Cucchiara
+                        Gianluca Mancusi, Mattia Bernardi, Aniello Panariello, Angelo Porrello, Simone Calderara, Rita
+                        Cucchiara
                     </p>
                     <div class="buttons mb-4">
                         <button class="btn btn-primary btn-paper disabled">
                             <i class="fas fa-file-alt me-2"></i>NeurIPS 2024 Paper
                         </button>
-                        <button class="btn btn-danger btn-paper disabled">
-                            <i class="fas fa-archive me-2"></i>arXiv Paper
-                        </button>
+                        <a href="https://arxiv.org/abs/2411.00553"><button class="btn btn-danger btn-paper"><i class="fas fa-archive me-2"></i>arXiv Paper</button></a>
                         <button class="btn btn-dark btn-paper disabled">
-                            <i class="fab fa-github me-2"></i>Code
+                            <i class="fab fa-github me-2"></i>Code (coming soon)
                         </button>
                     </div>
                 </div>
@@ -68,7 +79,18 @@
             <div class="col-md-10">
                 <h3 class="mb-3">Abstract</h3>
                 <p class="lead">
-                    End-to-end transformer-based trackers have achieved remarkable performance on most human-related datasets. However, training these trackers in heterogeneous scenarios poses significant challenges, including negative interference -- where the model learns conflicting scene-specific parameters -- and limited domain generalization, which often necessitates expensive fine-tuning to adapt the models to new domains. In response to these challenges, we introduce PArameter efficient Scenario specific Tracking Architecture (PASTA), a novel framework that combines Parameter-Efficient Fine-Tuning (PEFT) and Modular Deep Learning (MDL). Specifically, we define key scenario attributes (e.g., camera-viewpoint, lighting condition) and train specialized PEFT modules for each attribute. These expert modules are hence combined in parameter space, enabling systematic generalization to new domains without increasing inference time. Extensive experiments on MOTSynth, along with zero-shot evaluations on MOT17 and PersonPath22, demonstrate that a neural tracker built from carefully selected modules surpasses its monolithic counterpart.
+                    End-to-end transformer-based trackers have achieved remarkable performance on most human-related
+                    datasets. However, training these trackers in heterogeneous scenarios poses significant challenges,
+                    including negative interference -- where the model learns conflicting scene-specific parameters --
+                    and limited domain generalization, which often necessitates expensive fine-tuning to adapt the
+                    models to new domains. In response to these challenges, we introduce PArameter efficient Scenario
+                    specific Tracking Architecture (PASTA), a novel framework that combines Parameter-Efficient
+                    Fine-Tuning (PEFT) and Modular Deep Learning (MDL). Specifically, we define key scenario attributes
+                    (e.g., camera-viewpoint, lighting condition) and train specialized PEFT modules for each attribute.
+                    These expert modules are hence combined in parameter space, enabling systematic generalization to
+                    new domains without increasing inference time. Extensive experiments on MOTSynth, along with
+                    zero-shot evaluations on MOT17 and PersonPath22, demonstrate that a neural tracker built from
+                    carefully selected modules surpasses its monolithic counterpart.
                 </p>
             </div>
         </div>
@@ -78,7 +100,7 @@
             <div class="col-md-10">
                 <h3 class="mb-3">Model Overview</h3>
                 <div class="text-center mb-4">
-                    <img src="https://placehold.co/800x400" alt="PASTA Model Architecture" class="img-fluid rounded shadow">
+                    <img src="model_full.png" alt="PASTA Model Architecture" class="img-fluid rounded">
                     <p class="text-muted mt-2">Figure 1: Overview of the PASTA architecture</p>
                 </div>
             </div>
@@ -91,11 +113,24 @@
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <h4 class="h5">Problem Statement: Domain-shifts</h4>
-                        <p>The limited availability of annotated data often leads end-to-end trackers to overfit on training sets, making them vulnerable to domain shifts. With limited data, the model struggles to generalize, especially when negative interference arises between scenarios with differing attributes.</p>
+                        <p>The limited availability of annotated data often leads end-to-end trackers to overfit on
+                            training sets, making them vulnerable to domain shifts. With limited data, the model
+                            struggles to generalize, especially when negative interference arises between scenarios with
+                            differing attributes.</p>
+                        <div class="text-center mb-4">
+                            <img src="attributes.png" class="img-fluid rounded shadow">
+                            <p class="text-muted mt-2">Figure 2: Example of attributes among MOTSynth, MOT17, PersonPath22</p>
+                        </div>
                     </div>
                     <div class="col-md-6 mb-4">
                         <h4 class="h5">Solution: Attribute-specific PEFT modules</h4>
-                        <p>We train parameter-efficient modules for each attribute, creating a specialized expert system. During inference, an operator selects the expert modules for each scenario, enabling better adaptation to specific tracking conditions.</p>
+                        <p>We train parameter-efficient modules for each attribute, creating a specialized expert
+                            system. During inference, an operator selects the expert modules for each scenario, enabling
+                            better adaptation to specific tracking conditions.</p>
+                        <div class="text-center mb-4">
+                            <img src="model.png" class="img-fluid rounded shadow">
+                            <p class="text-muted mt-2">Figure 3: Overview of our modular framework</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -105,7 +140,21 @@
         <div class="row justify-content-center mb-5">
             <div class="col-md-10">
                 <h3 class="mb-3">Experimental Results</h3>
-                <p>Our experiments on MOTSynth demonstrate that reducing negative interference enhances association metrics. Zero-shot evaluations on real-world datasets (MOT17, PersonPath22) illustrate the improved generalization achieved by composing expert modules.</p>
+                <p>Our experiments on MOTSynth show that reducing negative interference enhances association
+                    metrics. Zero-shot evaluations (Tab. 1) on real-world datasets (MOT17, PersonPath22) illustrate the improved
+                    generalization achieved by composing expert modules.</p>
+                <h4 class="mt-4">Zero-shot Results</h4>
+                <div class="text-center mb-4">
+                    <img src="zeroshot.png" alt="Zero-shot results on MOT17/PP22" class="img-fluid rounded shadow">
+                    <p class="text-muted mt-2">Table 1: Our zero-shot results on MOT17 and PersonPath22 datasets</p>
+                </div>
+                <p>We show that, within an in-domain scenario, composing only the modules selected through expert knowledge yields superior results. </br>
+                    Conversely, during domain shifts, leveraging all modules while assigning lower weights to unselected ones helps the model retain valuable knowledge without discarding any (Tab. 2).</p>
+                <h4 class="mt-4">Ablation Results</h4>
+                <div class="text-center mb-4">
+                    <img src="ablation.png" alt="Ablation results" class="img-fluid rounded shadow">
+                    <p class="text-muted mt-2">Table 2: Our ablation results on MOTSynth (in-domain) and MOT17  datasets</p>
+                </div>
             </div>
         </div>
 
@@ -113,11 +162,14 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <h3 class="mb-3">Acknowledgements</h3>
-                <p>The research was supported by the Italian Ministry for University and Research through the PNRR project ECOSISTER ECS 00000033 CUP E93C22001100001 and by the EU Horizon project "ELIAS - European Lighthouse of AI for Sustainability" (No. 101120237).</p>
+                <p>The research was supported by the Italian Ministry for University and Research through the PNRR
+                    project ECOSISTER ECS 00000033 CUP E93C22001100001 and by the EU Horizon project "ELIAS - European
+                    Lighthouse of AI for Sustainability" (No. 101120237).</p>
             </div>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
